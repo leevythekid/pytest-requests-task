@@ -1,0 +1,12 @@
+{
+    "type": "object",
+    "properties": {
+        "snapshot_id": {
+            "type": "string"
+        }
+    },
+    "additionalProperties": false,
+    "required": [
+        "snapshot_id"
+    ]
+}
