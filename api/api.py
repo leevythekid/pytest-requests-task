@@ -1,10 +1,15 @@
 import requests
-import json
 from constants import API_URL, OAUTH_TOKEN, OAUTH_VALUE, USER_ID, HEADERS
 
 
 def get_album_by_id(album_id):
     url = f'{API_URL}/albums/{album_id}'
+
+    return requests.get(url, headers=HEADERS)
+
+
+def get_playlist_by_id(playlist_id):
+    url = f'{API_URL}/playlists/{playlist_id}'
 
     return requests.get(url, headers=HEADERS)
 
@@ -56,3 +61,9 @@ def update_playlist_details(playlist_id, new_playlist_name, new_playlist_desc, n
         payload["public"] = new_playlist_is_public
 
     return requests.put(url, headers=HEADERS, json=payload)
+
+
+def delete_unfollow_a_playlist(playlist_id):
+    url = f'{API_URL}/playlists/{playlist_id}/followers'
+
+    return requests.delete(url, headers=HEADERS)
