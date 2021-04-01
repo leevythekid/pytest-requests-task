@@ -1,4 +1,4 @@
-from api.api import get_album_by_id, create_playlist, add_items_to_playlist, update_playlist_details, delete_unfollow_a_playlist, get_playlist_by_id
+from api.api import *
 
 
 class TestBase:

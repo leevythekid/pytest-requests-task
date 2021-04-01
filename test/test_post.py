@@ -5,32 +5,50 @@ import pytest
 
 
 class TestPostMethod(TestBase):
-    @pytest.fixture(scope="module")
+    @pytest.fixture()
     def create_playlist(self):
-        # print("*****SETUP*****")
+        print("*****SETUP*****")
         response = self.post_create_playlist(
-            playlist_name="Playlist1",
-            playlist_desc="Playlist1 description",
+            playlist_name="Beforehook playlist",
+            playlist_desc="beforehook playlist description",
             playlist_is_public=True
         )
         yield response
-        # print("*****TEARDOWN*****")
+        print("*****TEARDOWN*****")
         self.delete_unfollow_a_playlist(response.json()["id"])
 
-    def test_post_create_playlist_status_code(self, create_playlist):
-        response = create_playlist
+    @pytest.mark.parametrize("playlist_name, playlist_desc, playlist_is_public",
+                             [("Playlist1", "My First Playlist", True),
+                              ("Playlist2", "My Second Playlist", False)])
+    def test_post_create_playlist_status_code(self, playlist_name, playlist_desc, playlist_is_public):
+        response = self.post_create_playlist(
+            playlist_name=playlist_name,
+            playlist_desc=playlist_desc,
+            playlist_is_public=playlist_is_public
+        )
+
+        self.delete_unfollow_a_playlist(response.json()["id"])
 
         assert response.status_code == 201
 
-    def test_post_create_playlist_properties(self, create_playlist):
-        response = create_playlist
+    @pytest.mark.parametrize("playlist_name, playlist_desc, playlist_is_public",
+                             [("Playlist1", "My First Playlist", True),
+                              ("Playlist2", "My Second Playlist", False)])
+    def test_post_create_playlist_properties(self, playlist_name, playlist_desc, playlist_is_public):
+        response = self.post_create_playlist(
+            playlist_name=playlist_name,
+            playlist_desc=playlist_desc,
+            playlist_is_public=playlist_is_public
+        )
 
-        assert response.json()["name"] == "Playlist1"
+        self.delete_unfollow_a_playlist(response.json()["id"])
+
+        assert response.json()["name"] == playlist_name
         assert response.json()[
-            "description"] == "Playlist1 description"
-        assert response.json()["public"] == True
+            "description"] == playlist_desc
+        assert response.json()["public"] == playlist_is_public
 
-    def test_post_add_items_to_playlist(self, create_playlist):
+    def test_post_add_items_to_playlist_status_code(self, create_playlist):
         response = create_playlist
 
         response = self.post_add_items_to_playlist(
@@ -41,7 +59,7 @@ class TestPostMethod(TestBase):
 
         assert response.status_code == 201
 
-    def test_add_items_to_playlist_schema(self, create_playlist):
+    def test_post_add_items_to_playlist_schema(self, create_playlist):
         response = self.post_add_items_to_playlist(
             playlist_id=create_playlist.json()["id"],
             track_uris=[TRACK_URI_AKPH_MIVEL_JATSZOL,
