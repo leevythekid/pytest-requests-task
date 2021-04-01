@@ -4,13 +4,20 @@ import pytest
 
 
 class TestGetMethod(TestBase):
-    def test_get_album_by_id_status_code(self):
-        response = self.get_album_by_id(album_id=ALBUM_ID_AKPH_AKKEZDET)
+    @pytest.mark.parametrize("album_id, expected_status_code",
+                             [(ALBUM_ID_AKPH_AKKEZDET, 200),
+                              (ALBUM_ID_BELGA_CSUMPA, 200),
+                              ("somerandom23213213", 400)])
+    def test_get_album_by_id_status_code(self, album_id, expected_status_code):
+        response = self.get_album_by_id(album_id=album_id)
 
-        assert response.status_code == 200
+        assert response.status_code == expected_status_code
 
-    def test_get_album_by_id_properties(self):
-        response = self.get_album_by_id(album_id=ALBUM_ID_BELGA_CSUMPA)
+    @pytest.mark.parametrize("album_id, expected_label, expected_name",
+                             [(ALBUM_ID_AKPH_AKKEZDET, "Akph", "Akkezdet"),
+                              (ALBUM_ID_BELGA_CSUMPA, "Bëlga", "Csumpa")])
+    def test_get_album_by_id_properties(self, album_id, expected_label, expected_name):
+        response = self.get_album_by_id(album_id=album_id)
 
-        assert response.json()["label"] == "Bëlga"
-        assert response.json()["name"] == "Csumpa"
+        assert response.json()["label"] == expected_label
+        assert response.json()["name"] == expected_name
