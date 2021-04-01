@@ -31,6 +31,13 @@ class TestPostMethod(TestBase):
 
         assert response.status_code == 201
 
+    def test_post_create_playlist_status_code_negative(self):
+        response = self.post_create_playlist(
+            playlist_name=None
+        )
+
+        assert response.status_code == 400
+
     @pytest.mark.parametrize("playlist_name, playlist_desc, playlist_is_public",
                              [("Playlist1", "My First Playlist", True),
                               ("Playlist2", "My Second Playlist", False)])
@@ -67,4 +74,4 @@ class TestPostMethod(TestBase):
         )
 
         assert_valid_schema(
-            response.json(), 'playlist_add_item_to_playlist_schema.json')
+            response.json(), 'add_item_to_playlist_schema.json')

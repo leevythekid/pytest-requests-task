@@ -7,7 +7,7 @@ class TestBase:
 
         return response
 
-    def get_playlist_by_id(self, playlist_id):
+    def get_playlist_by_id(self, playlist_id=None):
         response = get_playlist_by_id(playlist_id)
 
         return response
@@ -21,7 +21,7 @@ class TestBase:
 
         return response
 
-    def post_add_items_to_playlist(self, playlist_id, track_uris):
+    def post_add_items_to_playlist(self, playlist_id=None, track_uris=None):
         response = add_items_to_playlist(
             playlist_id=playlist_id,
             track_uris=track_uris
@@ -29,7 +29,7 @@ class TestBase:
 
         return response
 
-    def put_update_playlist_details(self, playlist_id, new_playlist_name, new_playlist_desc, new_playlist_is_public):
+    def put_update_playlist_details(self, playlist_id=None, new_playlist_name=None, new_playlist_desc=None, new_playlist_is_public=None):
         response = update_playlist_details(
             playlist_id=playlist_id,
             new_playlist_name=new_playlist_name,
@@ -39,7 +39,7 @@ class TestBase:
 
         return response
 
-    def delete_unfollow_a_playlist(self, playlist_id):
+    def delete_unfollow_a_playlist(self, playlist_id=None):
         response = delete_unfollow_a_playlist(
             playlist_id=playlist_id
         )

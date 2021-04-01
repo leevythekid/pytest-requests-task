@@ -1,5 +1,5 @@
 import requests
-from constants import API_URL, OAUTH_TOKEN, OAUTH_VALUE, USER_ID, HEADERS
+from constants import API_URL, USER_ID, HEADERS
 
 
 def get_album_by_id(album_id):
@@ -36,14 +36,12 @@ def add_items_to_playlist(playlist_id, track_uris):
 
     if track_uris is not None:
         for index, uri in enumerate(track_uris):
-            if index == len(track_uris) - 1:
-                query += uri
-            else:
+            if index < len(track_uris) - 1:
                 query += uri + ","
+            else:
+                query += uri
 
     url += query
-
-    print("URL: " + url)
 
     return requests.post(url, headers=HEADERS)
 
