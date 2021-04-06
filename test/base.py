@@ -1,9 +1,17 @@
-from api.api import get_album_by_id, get_playlist_by_id, create_playlist, add_items_to_playlist, update_playlist_details, delete_unfollow_a_playlist, get_current_user_profile
+from api.api import get_album_by_id, get_playlist_by_id, create_playlist, add_items_to_playlist, update_playlist_details, delete_unfollow_a_playlist, get_current_user_profile, delete_remove_items_from_playlist, auth_get_playlist_by_id
 
 
 class TestBase:
     def get_album_by_id(self, album_id=None):
         response = get_album_by_id(album_id)
+
+        return response
+
+    def auth_get_playlist_by_id(self, playlist_id, bearer_token=None):
+        response = auth_get_playlist_by_id(
+            playlist_id=playlist_id,
+            bearer_token=bearer_token
+        )
 
         return response
 
@@ -42,6 +50,14 @@ class TestBase:
     def delete_unfollow_a_playlist(self, playlist_id=None):
         response = delete_unfollow_a_playlist(
             playlist_id=playlist_id
+        )
+
+        return response
+
+    def delete_remove_items_from_playlist(self, playlist_id, tracks):
+        response = delete_remove_items_from_playlist(
+            playlist_id=playlist_id,
+            tracks=tracks
         )
 
         return response

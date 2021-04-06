@@ -2,7 +2,7 @@
 > - [x] check GET
 > - [x] check POST
 > - [x] check DELETE
-> - [ ] check authentication
+> - [x] check authentication
 > - [x] check query parameters: mandatory, optional
 > - [x] check schema
 
