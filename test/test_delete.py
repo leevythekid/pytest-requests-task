@@ -1,23 +1,19 @@
-from base import TestBase
 import pytest
+
+from .base import TestBase
 
 
 class TestDeleteMethod(TestBase):
-    @pytest.fixture(scope='module')
-    def create_playlist(self):
-        print("*****SETUP*****")
-        response = self.post_create_playlist(
+    def setup_method(self):
+        self.response = self.post_create_playlist(
             playlist_name="Playlist1",
             playlist_desc="Playlist1 description",
-            playlist_is_public=True
+            is_playlist_public=True
         )
-        yield response
 
-    def test_delete_unfollow_a_playlist_status_code(self, create_playlist):
-        response = create_playlist
-
+    def test_delete_unfollow_a_playlist_status_code(self):
         response = self.delete_unfollow_a_playlist(
-            playlist_id=response.json()["id"]
+            playlist_id=self.response.json()["id"]
         )
 
         assert response.status_code == 200
