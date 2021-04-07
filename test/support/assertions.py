@@ -1,4 +1,5 @@
 import json
+import yaml
 from os.path import join, dirname
 from jsonschema import validate
 
@@ -17,4 +18,5 @@ def _load_json_schema(filename):
     absolute_path = join(dirname(__file__), relative_path)
 
     with open(absolute_path) as schema_file:
-        return json.loads(schema_file.read())
+        return yaml.safe_load(schema_file.read())
+        # return json.loads(schema_file.read())

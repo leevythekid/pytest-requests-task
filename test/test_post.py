@@ -6,7 +6,7 @@ from constants import TRACK_URI_AKPH_MIVEL_JATSZOL, TRACK_URI_NKS_FOLD
 
 
 class TestPostMethod(TestBase):
-    @pytest.fixture()
+    @pytest.fixture(scope="module")
     def create_playlist(self):
         print("*****SETUP*****")
         response = self.post_create_playlist(
@@ -57,10 +57,8 @@ class TestPostMethod(TestBase):
         assert response.json()["public"] == is_playlist_public
 
     def test_post_add_items_to_playlist_status_code(self, create_playlist):
-        response = create_playlist
-
         response = self.post_add_items_to_playlist(
-            playlist_id=response.json()["id"],
+            playlist_id=create_playlist.json()["id"],
             track_uris=[TRACK_URI_AKPH_MIVEL_JATSZOL,
                         TRACK_URI_NKS_FOLD]
         )
@@ -75,4 +73,4 @@ class TestPostMethod(TestBase):
         )
 
         assert_valid_schema(
-            response.json(), 'add_item_to_playlist_schema.json')
+            response.json(), 'add_item_to_playlist_schema.yml')

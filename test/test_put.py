@@ -4,15 +4,16 @@ from .base import TestBase
 
 
 class TestPutMethod(TestBase):
-    def setup_method(self):
+    def setup_class(self):
         print("*****SETUP*****")
         self.response = self.post_create_playlist(
+            self=self,
             playlist_name="Playlist1",
             playlist_desc="Playlist1 description",
             is_playlist_public=False
         )
 
-    def teardown_method(self):
+    def teardown_class(self):
         print("*****TEARDOWN*****")
         self.delete_unfollow_a_playlist(self.response.json()["id"])
 

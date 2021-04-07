@@ -26,16 +26,16 @@ class TestDeleteMethod(TestBase):
 
     def test_delete_remove_items_from_playlist(self):
         response = self.delete_remove_items_from_playlist(
-            self.response.json()["id"],
-            [{"uri": TRACK_URI_AKPH_MIVEL_JATSZOL, "positions": [0]}]
+            playlist_id=self.response.json()["id"],
+            tracks=[{"uri": TRACK_URI_AKPH_MIVEL_JATSZOL, "positions": [0]}]
         )
 
         assert response.status_code == 200
 
     def test_delete_remove_items_from_playlist_non_existing(self):
         response = self.delete_remove_items_from_playlist(
-            self.response.json()["id"],
-            [{"uri": TRACK_URI_NKS_FOLD}]
+            playlist_id=self.response.json()["id"],
+            tracks=[{"uri": TRACK_URI_NKS_FOLD}]
         )
 
         assert response.status_code == 200

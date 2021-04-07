@@ -37,4 +37,4 @@ class TestGetMethod(TestBase):
     def test_get_current_user_profile_schema(self):
         response = self.get_current_user_profile()
 
-        assert_valid_schema(response.json(), 'get_user_info_schema.json')
+        assert_valid_schema(response.json(), 'get_user_info_schema.yml')
