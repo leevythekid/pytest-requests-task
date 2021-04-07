@@ -27,7 +27,6 @@
 |TC-15|✔|1. there is an existing playlist with id: {playlist_id}<br>2. tracks {tracks} are added to the playlist<br>
 3. the {playlist_id} is added to the DELETE request<br>4. the {tracks} are added to the request's body|1. the "DELETE remove items from a playlist" request is sent|1. the response should contain status code 200
 |TC-16|✔|1. there is an existing playlist with id: {playlist_id}<br>2. the playlist is empty<br>3. the {playlist_id} is added to the DELETE request<br>4. the {tracks} are added to the request's body|1. the "DELETE remove items from a playlist" request is sent|1. the response should contain status code 200
-
 |TC-17|[]|1. the Edge browser is opened|1. we navigate to "https://open.spotify.com/"|1. the Spotify web player should be opened
 |TC-18|[]|1. the Internet Explorer 1.0 browser is opened|1. we navigate to "https://open.spotify.com/"|1. the Spotify web player should send the following error message: "Browser not supported"
 |TC-19|[]|1. there is an existing playlist in our library|1. we right click the playlist<br>2. select "Share" option<br>3. select "Copy link to playlist" option|1. the corresponding URL should be in our clipboard
