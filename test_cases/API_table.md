@@ -10,12 +10,12 @@
 
 |ID|ACTC|Precondition|Actison(s)|Expected result(s)|
 |---|---|---|---|---|
-|TC-1|✔|1. the {album_id} is added to the GET request|1. the "GET album by id" request is sent|1. the response should contain status code 200
-|TC-2|✔|1. the {album_id} is added to the GET request|1. the "GET album by id" request is sent|1. the response should contain the proper album label
-|TC-3|✔|1. the {album_id} is added to the GET request|1. the "GET album by id" request is sent|1. the response should contain the proper album name
-|TC-4|✔|1. the {OAUTH_TOKEN} is added to the GET request's header|1. the "GET current user profile" request is sent|1. the response should be successfully validated against the corresponding schema defined in folder: schemas
-|TC-5|✔|1. the {playlist_name} is added to the POST request's body<br>2. the {playlist_desc} is added to the POST request's body<br>3. the {playlist_is_public} is added to the POST request's body|1. the "POST create playlist" request is sent|1. the response should contain status code 201
-|TC-6|✔|1. the POST request's body does not contain the required field {playlist_name}|1. the "POST create playlist" request is sent|1. the response should contain status code 400
+|TC-1|✔|1. there is an existing album with id: *{album_id}*<br>2. the *{OAUTH_TOKEN}* is added to the GET request's header<br>3. the *{album_id}* is added to the GET request|1. the "GET album by id" request is sent|1. the response should contain status code *200*
+|TC-2|✔|1. there is an existing album with id: *{album_id}*<br>2. the *{OAUTH_TOKEN}* is added to the GET request's header<br>3. the *{album_id}* is added to the GET request|1. the "GET album by id" request is sent|1. the response should contain the proper album label
+|TC-3|✔|1. there is an existing album with id: *{album_id}*<br>2. the *{OAUTH_TOKEN}* is added to the GET request's header<br>3. the *{album_id}* is added to the GET request|1. the "GET album by id" request is sent|1. the response should contain the proper album name
+|TC-4|✔|1. the *{OAUTH_TOKEN}* is added to the GET request's header|1. the "GET current user profile" request is sent|1. the response should be successfully validated against the corresponding schema defined in folder: schemas
+|TC-5|✔|1. the *{OAUTH_TOKEN}* is added to the POST request's header<br>2. the {playlist_name} is added to the POST request's body<br>3. the {playlist_desc} is added to the POST request's body<br>4. the {playlist_is_public} is added to the POST request's body|1. the "POST create playlist" request is sent|1. the response should contain status code 201
+|TC-6|✔|1. the *{OAUTH_TOKEN}* is added to the POST request's header<br>2. the POST request's body does not contain the required field {playlist_name}|1. the "POST create playlist" request is sent|1. the response should contain status code 400
 |TC-7|✔|1. the {playlist_name} is added to the POST request's body<br>2. the {playlist_desc} is added to the POST request's body<br>3. the {playlist_is_public} is added to the POST request's body|1. the "POST create playlist" request is sent|1. the response should contain the proper playlist name
 |TC-8|✔|1. the {playlist_name} is added to the POST request's body<br>2. the {track_uris} is added to the POST request's body|1. the "POST add items to playlist" request is sent|1. the response should contain status code 201
 |TC-9|✔|1. the {playlist_name} is added to the POST request's body<br>2. the {track_uris} is added to the POST request's body|1. the "POST add items to playlist" request is sent|1. the response should be successfully validated against the corresponding schema defined in folder: schemas
