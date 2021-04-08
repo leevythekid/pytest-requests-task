@@ -1,8 +1,8 @@
 import pytest
 
 from .base import TestBase
-from .support.assertions import assert_valid_schema
 from constants import TRACK_URI_AKPH_MIVEL_JATSZOL, TRACK_URI_NKS_FOLD
+from .support.assertions import assert_valid_schema
 
 
 class TestPostMethod(TestBase):

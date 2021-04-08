@@ -26,7 +26,7 @@ class TestPutMethod(TestBase):
 
         assert response.status_code == 200
 
-    def test_update_playlist_details_property_name(self, create_playlist):
+    def test_update_playlist_name(self, create_playlist):
         self.put_update_playlist_details(
             playlist_id=create_playlist.json()["id"],
             new_playlist_name="updated name",
@@ -36,7 +36,7 @@ class TestPutMethod(TestBase):
 
         assert response.json()["name"] == "updated name"
 
-    def test_update_playlist_details_property_description(self, create_playlist):
+    def test_update_playlist_description(self, create_playlist):
         self.put_update_playlist_details(
             playlist_id=create_playlist.json()["id"],
             new_playlist_desc="updated description",
@@ -46,7 +46,7 @@ class TestPutMethod(TestBase):
 
         assert response.json()["description"] == "updated description"
 
-    def test_update_playlist_details_property_visibility(self, create_playlist):
+    def test_update_playlist_visibility(self, create_playlist):
         self.put_update_playlist_details(
             playlist_id=create_playlist.json()["id"],
             is_new_playlist_public=True

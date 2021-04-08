@@ -9,6 +9,15 @@ def get_album_by_id(album_id):
     return requests.get(url, headers=HEADERS)
 
 
+def get_playlist_items(playlist_id):
+    url = f'{API_URL}/playlists/{playlist_id}/tracks'
+    query = "?market=HU&fields=items(track(name,uri))"
+
+    url += query
+
+    return requests.get(url, headers=HEADERS)
+
+
 def auth_get_playlist_by_id(playlist_id, bearer_token):
     url = f'{API_URL}/playlists/{playlist_id}'
     headers = {}
@@ -72,7 +81,7 @@ def delete_unfollow_a_playlist(playlist_id):
     return requests.delete(url, headers=HEADERS)
 
 
-def delete_remove_items_from_playlist(playlist_id, tracks):
+def delete_items_from_playlist(playlist_id, tracks):
     url = f'{API_URL}/playlists/{playlist_id}/tracks'
 
     payload = {}

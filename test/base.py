@@ -1,9 +1,16 @@
-from api.api import get_album_by_id, get_playlist_by_id, create_playlist, add_items_to_playlist, update_playlist_details, delete_unfollow_a_playlist, get_current_user_profile, delete_remove_items_from_playlist, auth_get_playlist_by_id
+from api.api import get_album_by_id, get_playlist_by_id, create_playlist, add_items_to_playlist, update_playlist_details, delete_unfollow_a_playlist, get_current_user_profile, delete_items_from_playlist, auth_get_playlist_by_id, get_playlist_items
 
 
 class TestBase:
     def get_album_by_id(self, album_id=None):
         response = get_album_by_id(album_id)
+
+        return response
+
+    def get_playlist_items(self, playlist_id):
+        response = get_playlist_items(
+            playlist_id=playlist_id
+        )
 
         return response
 
@@ -54,8 +61,8 @@ class TestBase:
 
         return response
 
-    def delete_remove_items_from_playlist(self, playlist_id, tracks):
-        response = delete_remove_items_from_playlist(
+    def delete_items_from_playlist(self, playlist_id, tracks):
+        response = delete_items_from_playlist(
             playlist_id=playlist_id,
             tracks=tracks
         )
@@ -66,3 +73,15 @@ class TestBase:
         response = get_current_user_profile()
 
         return response
+
+    # Fails if the playlist contains any of the given tracks
+    def assert_playlist_contains_tracks(self, playlist_id, tracks):
+        tmp = 0
+        response = get_playlist_items(playlist_id)
+
+        for item in response.json()['items']:
+            for track in tracks:
+                if track['uri'] == item['track']['uri']:
+                    tmp += 1
+
+        assert tmp == 0
