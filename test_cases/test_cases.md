@@ -1,9 +1,9 @@
 > Write test cases which test the following actions/checks:
 > - [x] check GET
 > - [x] check POST
+> - [x] check PUT
 > - [x] check DELETE
 > - [x] check authentication
-> - [x] check query parameters: mandatory, optional
 > - [x] check schema
 
 # Test cases

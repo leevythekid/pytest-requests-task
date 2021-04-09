@@ -25,7 +25,7 @@ If the account is created the OAuth Key and User ID should be added to the [cons
 
 ## Test cases
 
-The implemented test cases can be found in [API_table.md](test_cases/API_table.md).
+The implemented test cases can be found in [test_cases.md](test_cases/test_cases.md).
 
 ## Setup
 

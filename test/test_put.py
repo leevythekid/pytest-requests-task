@@ -1,6 +1,7 @@
 import pytest
 
 from .base import TestBase
+from constants import OAUTH_TOKEN
 
 
 class TestPutMethod(TestBase):
@@ -32,7 +33,8 @@ class TestPutMethod(TestBase):
             new_playlist_name="updated name"
         )
 
-        response = self.get_playlist_by_id(create_playlist.json()["id"])
+        response = self.get_playlist_by_id(
+            create_playlist.json()["id"], OAUTH_TOKEN)
 
         assert response.json()["name"] == "updated name"
 
@@ -42,7 +44,8 @@ class TestPutMethod(TestBase):
             new_playlist_desc="updated description"
         )
 
-        response = self.get_playlist_by_id(create_playlist.json()["id"])
+        response = self.get_playlist_by_id(
+            create_playlist.json()["id"], OAUTH_TOKEN)
 
         assert response.json()["description"] == "updated description"
 
@@ -52,6 +55,7 @@ class TestPutMethod(TestBase):
             is_new_playlist_public=True
         )
 
-        response = self.get_playlist_by_id(create_playlist.json()["id"])
+        response = self.get_playlist_by_id(
+            create_playlist.json()["id"], OAUTH_TOKEN)
 
         assert response.json()["public"] == True

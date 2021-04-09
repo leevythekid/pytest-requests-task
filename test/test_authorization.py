@@ -5,7 +5,7 @@ from constants import ALBUM_ID_AKPH_AKKEZDET, EXPIRED_TOKEN
 
 
 class TestAuthorizationMethod(TestBase):
-    @pytest.fixture()
+    @pytest.fixture(scope="class")
     def create_playlist(self):
         print("*****SETUP*****")
         response = self.post_create_playlist(
@@ -24,9 +24,10 @@ class TestAuthorizationMethod(TestBase):
                               (None, 401)
                               ])
     def test_get_playlist_by_id_status_code(self, create_playlist, bearer_token, expected_status_code):
-        response = self.auth_get_playlist_by_id(
+        response = self.get_playlist_by_id(
             playlist_id=create_playlist.json()["id"],
             bearer_token=bearer_token
         )
 
-        assert response.status_code == expected_status_code
+        assert (response.status_code ==
+                expected_status_code), f"Status code for token: '{bearer_token}' should be {expected_status_code} instead of {response.status_code}!"
