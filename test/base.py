@@ -76,12 +76,12 @@ class TestBase:
 
     # Fails if the playlist contains any of the given tracks
     def assert_playlist_contains_tracks(self, playlist_id, tracks):
-        tmp = 0
         response = get_playlist_items(playlist_id)
+        uris = []
 
         for item in response.json()['items']:
-            for track in tracks:
-                if track['uri'] == item['track']['uri']:
-                    tmp += 1
+            uris.append(item['track']['uri'])
 
-        assert tmp == 0
+        for track in tracks:
+            assert (
+                track['uri'] not in uris), f'Track with URI: {track["uri"]} found in the playlist after deletion!'

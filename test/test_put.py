@@ -29,7 +29,7 @@ class TestPutMethod(TestBase):
     def test_update_playlist_name(self, create_playlist):
         self.put_update_playlist_details(
             playlist_id=create_playlist.json()["id"],
-            new_playlist_name="updated name",
+            new_playlist_name="updated name"
         )
 
         response = self.get_playlist_by_id(create_playlist.json()["id"])
@@ -39,7 +39,7 @@ class TestPutMethod(TestBase):
     def test_update_playlist_description(self, create_playlist):
         self.put_update_playlist_details(
             playlist_id=create_playlist.json()["id"],
-            new_playlist_desc="updated description",
+            new_playlist_desc="updated description"
         )
 
         response = self.get_playlist_by_id(create_playlist.json()["id"])

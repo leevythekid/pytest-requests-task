@@ -11,7 +11,7 @@ def get_album_by_id(album_id):
 
 def get_playlist_items(playlist_id):
     url = f'{API_URL}/playlists/{playlist_id}/tracks'
-    query = "?market=HU&fields=items(track(name,uri))"
+    query = "?market=HU&fields=items(track(uri))"
 
     url += query
 
