@@ -1,3 +1,5 @@
+import yaml
+from jsonschema import validate
 from api.api import get_album_by_id, get_playlist_by_id, create_playlist, add_items_to_playlist, update_playlist_details, delete_unfollow_a_playlist, get_current_user_profile, delete_items_from_playlist, auth_get_playlist_by_id, get_playlist_items
 
 
@@ -73,6 +75,14 @@ class TestBase:
         response = get_current_user_profile()
 
         return response
+
+    # Schema validation
+    def assert_valid_schema(self, data, schema_file):
+        """ Checks whether the given data matches the schema """
+        with open(f'test/support/schemas/{schema_file}') as schema_file:
+            schema = yaml.safe_load(schema_file.read())
+
+        return validate(data, schema)
 
     # Fails if the playlist contains any of the given tracks
     def assert_playlist_contains_tracks(self, playlist_id, tracks):

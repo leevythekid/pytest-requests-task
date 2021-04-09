@@ -2,7 +2,6 @@ import pytest
 
 from .base import TestBase
 from constants import TRACK_URI_AKPH_MIVEL_JATSZOL, TRACK_URI_NKS_FOLD
-from .support.assertions import assert_valid_schema
 
 
 class TestPostMethod(TestBase):
@@ -72,5 +71,5 @@ class TestPostMethod(TestBase):
                         TRACK_URI_NKS_FOLD]
         )
 
-        assert_valid_schema(
+        self.assert_valid_schema(
             response.json(), 'add_item_to_playlist_schema.yml')
