@@ -32,7 +32,7 @@ class TestDeleteMethod(TestBase):
         )
 
         self.assert_playlist_contains_tracks(self.response.json()["id"], [
-            {"uri": TRACK_URI_QUEEN_UNDER_PRESSURE}, {"uri": TRACK_URI_AKPH_MIVEL_JATSZOL}])
+            {"uri": TRACK_URI_AKPH_MIVEL_JATSZOL}, {"uri": TRACK_URI_NKS_FOLD}])
 
     def test_delete_items_from_playlist_with_position(self):
         self.delete_items_from_playlist(
