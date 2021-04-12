@@ -29,14 +29,16 @@ class TestPostMethod(TestBase):
 
         self.delete_unfollow_a_playlist(response.json()["id"])
 
-        assert response.status_code == 201
+        assert (response.status_code ==
+                201), "Status code is expected to be: 201."
 
     def test_post_create_playlist_status_code_negative(self):
         response = self.post_create_playlist(
             playlist_name=None
         )
 
-        assert response.status_code == 400
+        assert (response.status_code ==
+                400), "Status code is expected to be: 400."
 
     @pytest.mark.parametrize("playlist_name, playlist_desc, is_playlist_public",
                              [("Playlist1", "My First Playlist", True),
@@ -50,10 +52,12 @@ class TestPostMethod(TestBase):
 
         self.delete_unfollow_a_playlist(response.json()["id"])
 
-        assert response.json()["name"] == playlist_name
+        assert (response.json()[
+                "name"] == playlist_name), f"Name is expected to be: {playlist_name}"
         assert response.json()[
-            "description"] == playlist_desc
-        assert response.json()["public"] == is_playlist_public
+            "description"] == playlist_desc, f"Description is expected to be: {playlist_desc}"
+        assert response.json()[
+            "public"] == is_playlist_public, f"Visibility is expected to be: {is_playlist_public}"
 
     def test_post_add_items_to_playlist_status_code(self, create_playlist):
         response = self.post_add_items_to_playlist(
@@ -62,7 +66,8 @@ class TestPostMethod(TestBase):
                         TRACK_URI_NKS_FOLD]
         )
 
-        assert response.status_code == 201
+        assert (response.status_code ==
+                201), f"Response status code is expected to be: 201."
 
     def test_post_add_items_to_playlist_schema(self, create_playlist):
         response = self.post_add_items_to_playlist(

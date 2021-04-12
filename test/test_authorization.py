@@ -30,4 +30,4 @@ class TestAuthorizationMethod(TestBase):
         )
 
         assert (response.status_code ==
-                expected_status_code), f"Status code for token: '{bearer_token}' should be {expected_status_code} instead of {response.status_code}!"
+                expected_status_code), f"Status code is expected to be: {expected_status_code}."

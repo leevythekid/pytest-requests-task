@@ -1,7 +1,10 @@
 import pytest
 
 from .base import TestBase
-from constants import TRACK_URI_AKPH_MIVEL_JATSZOL, TRACK_URI_NKS_FOLD, TRACK_URI_QUEEN_UNDER_PRESSURE, PLAYLIST_ID_QUEEN_LIVE
+from constants import (TRACK_URI_AKPH_MIVEL_JATSZOL,
+                       TRACK_URI_NKS_FOLD,
+                       TRACK_URI_QUEEN_UNDER_PRESSURE,
+                       PLAYLIST_ID_QUEEN_LIVE)
 
 
 class TestDeleteMethod(TestBase):
@@ -22,7 +25,8 @@ class TestDeleteMethod(TestBase):
             playlist_id=self.response.json()["id"]
         )
 
-        assert response.status_code == 200
+        assert (response.status_code ==
+                200), f"Status code is expected to be: 200."
 
     def test_delete_items_from_playlist(self):
         self.delete_items_from_playlist(
@@ -49,7 +53,8 @@ class TestDeleteMethod(TestBase):
             tracks=[{"uri": TRACK_URI_NKS_FOLD}]
         )
 
-        assert response.status_code == 200
+        assert (response.status_code ==
+                200), f"Status code is expected to be: 200."
 
     def test_delete_non_existing_items_from_playlist_with_positon(self):
         response = self.delete_items_from_playlist(
@@ -57,7 +62,8 @@ class TestDeleteMethod(TestBase):
             tracks=[{"uri": TRACK_URI_NKS_FOLD, "positions": [3]}]
         )
 
-        assert response.status_code == 400
+        assert (response.status_code ==
+                400), f"Status code is expected to be: 400."
 
     def test_delete_items_from_not_owned_playlist(self):
         response = self.delete_items_from_playlist(
@@ -65,7 +71,8 @@ class TestDeleteMethod(TestBase):
             tracks=[{"uri": TRACK_URI_QUEEN_UNDER_PRESSURE}]
         )
 
-        assert response.status_code == 403
+        assert (response.status_code ==
+                403), f"Status code is expected to be: 403."
 
     def test_delete_items_from_non_existing_playlist(self):
         response = self.delete_items_from_playlist(
@@ -73,4 +80,5 @@ class TestDeleteMethod(TestBase):
             tracks=[{"uri": TRACK_URI_AKPH_MIVEL_JATSZOL}]
         )
 
-        assert response.status_code == 404
+        assert (response.status_code ==
+                404), f"Status code is expected to be: 404."
