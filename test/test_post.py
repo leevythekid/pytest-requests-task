@@ -17,9 +17,13 @@ class TestPostMethod(TestBase):
         print("*****TEARDOWN*****")
         self.delete_unfollow_a_playlist(response.json()["id"])
 
-    @pytest.mark.parametrize("playlist_name, playlist_desc, is_playlist_public",
-                             [("Playlist1", "My First Playlist", True),
-                              ("Playlist2", "My Second Playlist", False)])
+    @pytest.mark.parametrize(
+        "playlist_name, playlist_desc, is_playlist_public",
+        [
+            ("Playlist1", "My First Playlist", True),
+            ("Playlist2", "My Second Playlist", False)
+        ]
+    )
     def test_post_create_playlist_status_code(self, playlist_name, playlist_desc, is_playlist_public):
         response = self.post_create_playlist(
             playlist_name=playlist_name,
@@ -42,9 +46,13 @@ class TestPostMethod(TestBase):
             response.status_code == 400
         ), "Status code is expected to be: 400."
 
-    @pytest.mark.parametrize("playlist_name, playlist_desc, is_playlist_public",
-                             [("Playlist1", "My First Playlist", True),
-                              ("Playlist2", "My Second Playlist", False)])
+    @pytest.mark.parametrize(
+        "playlist_name, playlist_desc, is_playlist_public",
+        [
+            ("Playlist1", "My First Playlist", True),
+            ("Playlist2", "My Second Playlist", False)
+        ]
+    )
     def test_post_create_playlist_properties(self, playlist_name, playlist_desc, is_playlist_public):
         response = self.post_create_playlist(
             playlist_name=playlist_name,

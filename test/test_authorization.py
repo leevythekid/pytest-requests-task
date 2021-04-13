@@ -17,12 +17,15 @@ class TestAuthorization(TestBase):
         print("*****TEARDOWN*****")
         self.delete_unfollow_a_playlist(response.json()["id"])
 
-    @pytest.mark.parametrize("bearer_token, expected_status_code",
-                             [("", 400),
-                              ("SOMERANDOMStr123", 401),
-                              (EXPIRED_TOKEN, 401),
-                              (None, 401)
-                              ])
+    @pytest.mark.parametrize(
+        "bearer_token, expected_status_code",
+        [
+            ("", 400),
+            ("SOMERANDOMStr123", 401),
+            (EXPIRED_TOKEN, 401),
+            (None, 401)
+        ]
+    )
     def test_get_playlist_by_id_status_code(self, create_playlist, bearer_token, expected_status_code):
         response = self.get_playlist_by_id(
             playlist_id=create_playlist.json()["id"],

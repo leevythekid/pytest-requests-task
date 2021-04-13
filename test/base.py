@@ -1,7 +1,8 @@
 import yaml
 
 from api.api import (
-    get_album_by_id, get_playlist_by_id,
+    get_album_by_id,
+    get_playlist_by_id,
     create_playlist,
     add_items_to_playlist,
     update_playlist_details,
