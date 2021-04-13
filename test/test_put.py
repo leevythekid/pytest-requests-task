@@ -5,7 +5,7 @@ from constants import OAUTH_TOKEN
 
 
 class TestPutMethod(TestBase):
-    @pytest.fixture(scope="module")
+    @pytest.fixture(scope="class")
     def create_playlist(self):
         print("*****SETUP*****")
         response = self.post_create_playlist(
@@ -25,8 +25,9 @@ class TestPutMethod(TestBase):
             is_new_playlist_public=True
         )
 
-        assert (response.status_code ==
-                200), f"Status code is expected to be: 200."
+        assert (
+            response.status_code == 200
+        ), f"Status code is expected to be: 200."
 
     def test_update_playlist_name(self, create_playlist):
         self.put_update_playlist_details(
@@ -37,8 +38,9 @@ class TestPutMethod(TestBase):
         response = self.get_playlist_by_id(
             create_playlist.json()["id"], OAUTH_TOKEN)
 
-        assert (response.json()[
-                "name"] == "updated name"), f"Name is expected to be: 'updated name'."
+        assert (
+            response.json()["name"] == "updated name"
+        ), f"Name is expected to be: 'updated name'."
 
     def test_update_playlist_description(self, create_playlist):
         self.put_update_playlist_details(
@@ -49,8 +51,9 @@ class TestPutMethod(TestBase):
         response = self.get_playlist_by_id(
             create_playlist.json()["id"], OAUTH_TOKEN)
 
-        assert (response.json()[
-                "description"] == "updated description"), f"Description is expected to be: 'updated description'."
+        assert (
+            response.json()["description"] == "updated description"
+        ), f"Description is expected to be: 'updated description'."
 
     def test_update_playlist_visibility(self, create_playlist):
         self.put_update_playlist_details(
@@ -61,5 +64,6 @@ class TestPutMethod(TestBase):
         response = self.get_playlist_by_id(
             create_playlist.json()["id"], OAUTH_TOKEN)
 
-        assert (response.json()["public"] ==
-                True),  f"Visibility is expected to be: True."
+        assert (
+            response.json()["public"] == True
+        ),  f"Visibility is expected to be: True."

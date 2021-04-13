@@ -4,7 +4,7 @@ from .base import TestBase
 from constants import ALBUM_ID_AKPH_AKKEZDET, EXPIRED_TOKEN
 
 
-class TestAuthorizationMethod(TestBase):
+class TestAuthorization(TestBase):
     @pytest.fixture(scope="class")
     def create_playlist(self):
         print("*****SETUP*****")
@@ -29,5 +29,6 @@ class TestAuthorizationMethod(TestBase):
             bearer_token=bearer_token
         )
 
-        assert (response.status_code ==
-                expected_status_code), f"Status code is expected to be: {expected_status_code}."
+        assert (
+            response.status_code == expected_status_code
+        ), f"Status code is expected to be: {expected_status_code}."
