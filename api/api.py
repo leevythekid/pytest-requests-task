@@ -11,11 +11,10 @@ def get_album_by_id(album_id):
 
 def get_playlist_items(playlist_id):
     url = f"{API_URL}/playlists/{playlist_id}/tracks"
-    query = "?market=HU&fields=items(track(uri))"
+    # ?market=HU&fields=items(track(uri))
+    query = {"market": "HU", "fields": "items(track(uri))"}
 
-    url += query
-
-    return requests.get(url, headers=HEADERS)
+    return requests.get(url, params=query, headers=HEADERS)
 
 
 def get_playlist_by_id(playlist_id, bearer_token):
@@ -45,12 +44,9 @@ def create_playlist(playlist_name, playlist_desc, is_playlist_public):
 
 def add_items_to_playlist(playlist_id, track_uris):
     url = f"{API_URL}/playlists/{playlist_id}/tracks"
+    query = {"uris": ",".join(track_uris)}
 
-    query = "?uris=" + ",".join(track_uris)
-
-    url += query
-
-    return requests.post(url, headers=HEADERS)
+    return requests.post(url, params=query, headers=HEADERS)
 
 
 def update_playlist_details(playlist_id, new_playlist_name, new_playlist_desc, is_new_playlist_public):

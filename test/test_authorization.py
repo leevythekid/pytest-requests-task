@@ -5,6 +5,8 @@ from constants import ALBUM_ID_AKPH_AKKEZDET, EXPIRED_TOKEN
 
 
 class TestAuthorization(TestBase):
+    # initialize test functions
+    # consistent result
     @pytest.fixture(scope="class")
     def create_playlist(self):
         print("*****SETUP*****")

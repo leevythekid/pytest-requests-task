@@ -5,7 +5,7 @@ This is a test-ware to practice performing API tests using Python's pytest and r
 ## Prerequisites
 
 In order to execute the implemented test cases, an account is needed on the https://www.spotify.com/.
-If the account is created the OAuth Key and User ID should be added to the [constants](constants.py) instead of the {YOUR_OAUTH_TOKEN} and {YOUR_USER_ID} as a string.
+If the account is created the OAuth Key, an expired OAuth Key and User ID should be added to the [constants](constants.py) instead of the {YOUR_OAUTH_TOKEN}, {EXPIRED_TOKEN} and {YOUR_USER_ID} as a string.
 
 1. Python 3.9+
 1. Pip

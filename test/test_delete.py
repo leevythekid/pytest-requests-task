@@ -5,6 +5,7 @@ from constants import (
     TRACK_URI_AKPH_MIVEL_JATSZOL,
     TRACK_URI_NKS_FOLD,
     TRACK_URI_QUEEN_UNDER_PRESSURE,
+    TRACK_URI_PANTERA_WALK,
     PLAYLIST_ID_QUEEN_LIVE
 )
 
@@ -62,7 +63,7 @@ class TestDeleteMethod(TestBase):
     def test_delete_non_existing_items_from_playlist_without_position(self):
         response = self.delete_items_from_playlist(
             playlist_id=self.response.json()["id"],
-            tracks=[{"uri": TRACK_URI_NKS_FOLD}]
+            tracks=[{"uri": TRACK_URI_PANTERA_WALK}]
         )
 
         assert (
@@ -72,7 +73,7 @@ class TestDeleteMethod(TestBase):
     def test_delete_non_existing_items_from_playlist_with_positon(self):
         response = self.delete_items_from_playlist(
             playlist_id=self.response.json()["id"],
-            tracks=[{"uri": TRACK_URI_NKS_FOLD, "positions": [3]}]
+            tracks=[{"uri": TRACK_URI_PANTERA_WALK, "positions": [3]}]
         )
 
         assert (
