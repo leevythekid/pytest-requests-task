@@ -9,7 +9,7 @@ class TestPutMethod(TestBase):
     def create_playlist(self):
         print("*****SETUP*****")
         response = self.post_create_playlist(
-            playlist_name="Playlist1",
+            playlist_name="Playlist_Put",
             playlist_desc="Playlist1 description",
             is_playlist_public=False
         )
@@ -20,7 +20,7 @@ class TestPutMethod(TestBase):
     def test_update_playlist_details_status_code(self, create_playlist):
         response = self.put_update_playlist_details(
             playlist_id=create_playlist.json()["id"],
-            new_playlist_name="WfH updated name",
+            new_playlist_name="Playlist_Put_1",
             new_playlist_desc="updated description",
             is_new_playlist_public=True
         )
@@ -32,15 +32,15 @@ class TestPutMethod(TestBase):
     def test_update_playlist_name(self, create_playlist):
         self.put_update_playlist_details(
             playlist_id=create_playlist.json()["id"],
-            new_playlist_name="updated name"
+            new_playlist_name="Playlist_Put_2"
         )
 
         response = self.get_playlist_by_id(
             create_playlist.json()["id"], OAUTH_TOKEN)
 
         assert (
-            response.json()["name"] == "updated name"
-        ), f"Name is expected to be: 'updated name'."
+            response.json()["name"] == "Playlist_Put_2"
+        ), f"Name is expected to be: 'Playlist_Put_2'."
 
     def test_update_playlist_description(self, create_playlist):
         self.put_update_playlist_details(

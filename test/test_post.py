@@ -9,7 +9,7 @@ class TestPostMethod(TestBase):
     def create_playlist(self):
         print("*****SETUP*****")
         response = self.post_create_playlist(
-            playlist_name="Beforehook playlist",
+            playlist_name="Playlist_Post",
             playlist_desc="beforehook playlist description",
             is_playlist_public=True
         )
@@ -20,8 +20,8 @@ class TestPostMethod(TestBase):
     @pytest.mark.parametrize(
         "playlist_name, playlist_desc, is_playlist_public",
         [
-            ("Playlist1", "My First Playlist", True),
-            ("Playlist2", "My Second Playlist", False)
+            ("Playlist_Post_1_1", "My First Playlist", True),
+            ("Playlist_Post_1_2", "My Second Playlist", False)
         ]
     )
     def test_post_create_playlist_status_code(self, playlist_name, playlist_desc, is_playlist_public):
@@ -49,8 +49,8 @@ class TestPostMethod(TestBase):
     @pytest.mark.parametrize(
         "playlist_name, playlist_desc, is_playlist_public",
         [
-            ("Playlist1", "My First Playlist", True),
-            ("Playlist2", "My Second Playlist", False)
+            ("Playlist_Post_3_1", "My First Playlist", True),
+            ("Playlist_Post_3_2", "My Second Playlist", False)
         ]
     )
     def test_post_create_playlist_properties(self, playlist_name, playlist_desc, is_playlist_public):

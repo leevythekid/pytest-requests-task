@@ -5,13 +5,11 @@ from constants import ALBUM_ID_AKPH_AKKEZDET, EXPIRED_TOKEN
 
 
 class TestAuthorization(TestBase):
-    # initialize test functions
-    # consistent result
     @pytest.fixture(scope="class")
     def create_playlist(self):
         print("*****SETUP*****")
         response = self.post_create_playlist(
-            playlist_name="Beforehook playlist",
+            playlist_name="Playlist_Authorization",
             playlist_desc="beforehook playlist description",
             is_playlist_public=True
         )

@@ -13,7 +13,7 @@ from constants import (
 class TestDeleteMethod(TestBase):
     def setup_method(self):
         self.response = self.post_create_playlist(
-            playlist_name="Playlist1",
+            playlist_name="Playlist_Delete",
             playlist_desc="Playlist1 description",
             is_playlist_public=True
         )
