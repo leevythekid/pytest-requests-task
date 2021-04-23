@@ -1,7 +1,7 @@
 import pytest
 
 from .base import TestBase
-from constants import ALBUM_ID_AKPH_AKKEZDET, ALBUM_ID_BELGA_CSUMPA
+from constants import ALBUM_ID_AKPH_AKKEZDET, ALBUM_ID_BELGA_CSUMPA, OAUTH_TOKEN
 
 
 class TestGetMethod(TestBase):
@@ -9,7 +9,6 @@ class TestGetMethod(TestBase):
         "album_id, expected_status_code",
         [
             (ALBUM_ID_AKPH_AKKEZDET, 200),
-            (ALBUM_ID_BELGA_CSUMPA, 200),
             ("somerandom23213213", 400)
         ]
     )

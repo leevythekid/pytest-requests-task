@@ -1,0 +1,38 @@
+type: object
+properties:
+  collaborative:
+    type: boolean
+  id:
+    type: string
+  name:
+    type: string
+  owner:
+    type: object
+    properties:
+      display_name:
+        type: string
+      id:
+        type: string
+      uri:
+        type: string
+    additionalProperies: true
+    required:
+    - id
+  public:
+    type: boolean
+  tracks:
+    type: object
+  type:
+    type: string
+  uri:
+    type: string
+additionalProperties: true
+required:
+- collaborative
+- id
+- name
+- owner
+- public
+- tracks
+- type
+- uri
