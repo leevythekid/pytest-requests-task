@@ -2,6 +2,7 @@ import requests
 
 from constants import API_URL, USER_ID, HEADERS
 
+
 def get_album_by_id(token, album_id, market):
     url = f"{API_URL}/albums/{album_id}"
     headers = {}
@@ -13,6 +14,7 @@ def get_album_by_id(token, album_id, market):
         params["market"] = market
 
     return requests.get(url, params=params, headers=headers)
+
 
 def create_playlist(token, user_id, playlist_name, is_public, is_collaborative, playlist_description):
     if user_id == None:
@@ -36,12 +38,14 @@ def create_playlist(token, user_id, playlist_name, is_public, is_collaborative, 
 
     return requests.post(url, headers=headers, json=payload)
 
+
 """
 def get_album_by_id(album_id):
     url = f"{API_URL}/albums/{album_id}"
 
     return requests.get(url, headers=HEADERS)
 """
+
 
 def get_playlist_items(playlist_id):
     url = f"{API_URL}/playlists/{playlist_id}/tracks"
@@ -60,10 +64,16 @@ def get_playlist_by_id(playlist_id, bearer_token):
 
     return requests.get(url, headers=headers)
 
-def get_list_of_current_users_playlist():
-    url = f"{API_URL}/me/playlists"
 
-    return requests.get(url, headers=HEADERS)
+def get_list_of_current_users_playlists(token):
+    url = f"{API_URL}/me/playlists"
+    headers = {}
+
+    if token is not None:
+        headers["Authorization"] = f"Bearer {token}"
+
+    return requests.get(url, headers=headers)
+
 
 def add_items_to_playlist(playlist_id, track_uris):
     url = f"{API_URL}/playlists/{playlist_id}/tracks"

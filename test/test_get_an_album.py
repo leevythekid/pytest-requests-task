@@ -1,6 +1,7 @@
 import random
 import pytest
 
+from .assertions import assert_valid_schema
 from .base import TestBase
 from constants import ALBUM_ID_LIST, OAUTH_TOKEN, EXPIRED_TOKEN
 
@@ -62,18 +63,20 @@ class TestGetAnAlbum(TestBase):
             market=market
         )
 
-        self.assert_valid_schema(response, 'error_object_schema.yml')
+        assert_valid_schema(response, 'error_object_schema.yml')
 
         assert (
             response["error"]["message"] == error_message
         ), f"Response message is: {response['error']['message']}, should be: '{error_message}'."
 
-    @pytest.mark.parametrize("token, status_code, error_message",
-                             [
-                                 ("", 400, _ERROR_BEARER),
-                                 ("randonString123", 401, _ERROR_INVALID_TOKEN),
-                                 (EXPIRED_TOKEN, 401, _ERROR_EXPIRED_TOKEN)
-                             ])
+    @pytest.mark.parametrize(
+        "token, status_code, error_message",
+        [
+            ("", 400, _ERROR_BEARER),
+            ("randonString123", 401, _ERROR_INVALID_TOKEN),
+            (EXPIRED_TOKEN, 401, _ERROR_EXPIRED_TOKEN)
+        ]
+    )
     def test_TC9_invalid_token(self, token, status_code, error_message):
         response = self.get_album_by_id(
             status_code=status_code,
@@ -81,19 +84,21 @@ class TestGetAnAlbum(TestBase):
             album_id=_ALBUM["album_id"]
         )
 
-        self.assert_valid_schema(response, 'error_object_schema.yml')
+        assert_valid_schema(response, 'error_object_schema.yml')
 
         assert (
             response["error"]["message"] == error_message
         ), f"Response message is: {response['error']['message']}, should be: '{error_message}'."
 
-    @pytest.mark.parametrize("album_id",
-                             [
-                                 (1612),
-                                 (["list"]),
-                                 ({}),
-                                 ("\"")
-                             ])
+    @pytest.mark.parametrize(
+        "album_id",
+        [
+            (1612),
+            (["list"]),
+            ({}),
+            ("\"")
+        ]
+    )
     def test_TC10_invalid_album_id(self, album_id):
         response = self.get_album_by_id(
             status_code=400,
@@ -101,17 +106,18 @@ class TestGetAnAlbum(TestBase):
             album_id=album_id
         )
 
-        self.assert_valid_schema(response, 'error_object_schema.yml')
+        assert_valid_schema(response, 'error_object_schema.yml')
 
         assert (
             response["error"]["message"] == _ERROR_INVALID_ID
         ), f"Response message is: {response['error']['message']}, should be: '{_ERROR_INVALID_ID}'."
 
-    @pytest.mark.parametrize("market",
-                             [
-                                 ("iddqd")
-                             ]
-                             )
+    @pytest.mark.parametrize(
+        "market",
+        [
+            ("iddqd")
+        ]
+    )
     def test_TC11_invalid_market(self, market):
         response = self.get_album_by_id(
             status_code=400,
@@ -120,7 +126,7 @@ class TestGetAnAlbum(TestBase):
             market=market
         )
 
-        self.assert_valid_schema(response, 'error_object_schema.yml')
+        assert_valid_schema(response, 'error_object_schema.yml')
 
         assert (
             response["error"]["message"] == _ERROR_INVALID_MARKET

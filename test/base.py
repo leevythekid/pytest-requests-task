@@ -1,22 +1,19 @@
-import yaml
-
 from api.api import (
     get_album_by_id,
-    get_playlist_by_id,
     create_playlist,
+    get_list_of_current_users_playlists,
+    unfollow_a_playlist,
+    get_playlist_by_id,
     add_items_to_playlist,
     update_playlist_details,
-    unfollow_a_playlist,
     get_current_user_profile,
-    get_list_of_current_users_playlist,
     delete_items_from_playlist,
     get_playlist_items
 )
 from constants import USER_ID
-from jsonschema import validate
 
 
-class TestBase:
+class TestBase():
     def get_album_by_id(self, status_code=200, token=None, album_id=None, market=None):
         response = get_album_by_id(
             token=token,
@@ -47,15 +44,15 @@ class TestBase:
             ), f"Expected status code {status_code}, actual: {response.status_code}"
 
         return response.json()
-    
-    def get_list_of_current_users_playlist(self, status_code=200):
-        response = get_list_of_current_users_playlist()
+
+    def get_list_of_current_users_playlists(self, token, status_code=200):
+        response = get_list_of_current_users_playlists(token)
 
         if status_code is not None:
             assert(
                 response.status_code == status_code
             ), f"Expected status code {status_code}, actual: {response.status_code}"
-    
+
         return response.json()
 
     def unfollow_a_playlist(self, status_code=200, playlist_id=None):
@@ -69,8 +66,6 @@ class TestBase:
             ), f"Expected status code {status_code}, actual: {response.status_code}"
 
         return response
-    
-
 
     """
     def get_album_by_id(self, album_id=None):
@@ -92,7 +87,7 @@ class TestBase:
             bearer_token=bearer_token
         )
 
-        return response
+        return response.json()
 
     def post_add_items_to_playlist(self, playlist_id=None, track_uris=None):
         response = add_items_to_playlist(
@@ -112,8 +107,6 @@ class TestBase:
 
         return response
 
-
-
     def delete_items_from_playlist(self, playlist_id, tracks):
         response = delete_items_from_playlist(
             playlist_id=playlist_id,
@@ -127,38 +120,13 @@ class TestBase:
 
         return response
 
-    # Schema validation - Checks whether the given data matches the schema
-    def assert_valid_schema(self, data, schema_file):
-        with open(f"test/support/schemas/{schema_file}") as schema_file:
-            schema = yaml.safe_load(schema_file.read())
-
-        return validate(data, schema)
-
-    # Fails if the playlist contains any of the given tracks
-    def assert_playlist_contains_tracks(self, playlist_id, tracks):
-        response = get_playlist_items(playlist_id)
-        uris = []
-
-        for item in response.json()["items"]:
-            uris.append(item["track"]["uri"])
-
-        for track in tracks:
-            assert (
-                track["uri"] not in uris
-            ), f"Track with URI: {track['uri']} found in the playlist after deletion!"
-
-    # Pass if the current user does owns exactly {number_of_playlists} playlist
-    def assert_current_user_owns_playlist(self, number_of_playlists):
-        response = get_list_of_current_users_playlist()
+    def get_owned_playlists_of_current_user(self, token):
+        response = self.get_list_of_current_users_playlists(token)
         playlists = []
 
-        if len(response.json()["items"]) > 0:
-            for playlist in response.json()["items"]:
+        if len(response["items"]) > 0:
+            for playlist in response["items"]:
                 if playlist["owner"]["id"] == USER_ID:
                     playlists.append(playlist)
-
-        assert (
-            len(playlists) == number_of_playlists
-        ), f"Current playler owns {len(playlists)} playlist(s), insted of: {number_of_playlists}."
 
         return playlists
