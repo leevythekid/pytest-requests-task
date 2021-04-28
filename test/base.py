@@ -1,3 +1,5 @@
+import spotipy
+
 from api.api import (
     get_album_by_id,
     create_playlist,
@@ -10,7 +12,7 @@ from api.api import (
     delete_items_from_playlist,
     get_playlist_items
 )
-from constants import USER_ID
+from constants import USER_ID, REDIRECT_URI
 
 
 class TestBase():
@@ -45,8 +47,8 @@ class TestBase():
 
         return response.json()
 
-    def get_list_of_current_users_playlists(self, token, status_code=200):
-        response = get_list_of_current_users_playlists(token)
+    def get_list_of_current_users_playlists(self, status_code=200):
+        response = get_list_of_current_users_playlists()
 
         if status_code is not None:
             assert(
@@ -120,8 +122,8 @@ class TestBase():
 
         return response
 
-    def get_owned_playlists_of_current_user(self, token):
-        response = self.get_list_of_current_users_playlists(token)
+    def get_owned_playlists_of_current_user(self):
+        response = self.get_list_of_current_users_playlists()
         playlists = []
 
         if len(response["items"]) > 0:
@@ -130,3 +132,7 @@ class TestBase():
                     playlists.append(playlist)
 
         return playlists
+    
+    def get_token(self, scope):
+        sp = spotipy.SpotifyOAuth(redirect_uri=REDIRECT_URI, scope=scope)
+        return sp.get_access_token(check_cache=False)["access_token"]

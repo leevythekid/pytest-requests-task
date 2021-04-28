@@ -24,12 +24,12 @@ def assert_playlist_contains_tracks(playlist_id, tracks):
         ), f"Track with URI: {track['uri']} found in the playlist after deletion!"
 
 
-def assert_current_user_owns_playlist(number_of_playlists, token):
-    testbase = TestBase()
+def assert_current_user_owns_playlist(number_of_playlists):
+    #testbase = TestBase()
 
     assert (
-        len(testbase.get_owned_playlists_of_current_user(token)) == number_of_playlists
-    ), f"Current playler owns {len(testbase.get_owned_playlists_of_current_user(token))} playlist(s), insted of: {number_of_playlists}."
+        len(TestBase().get_owned_playlists_of_current_user()) == number_of_playlists
+    ), f"Current playler owns {len(testbase.get_owned_playlists_of_current_user())} playlist(s), insted of: {number_of_playlists}."
 
 
 def assert_compare_playlists(owned_playlist, created_playlist, ignored_keys):

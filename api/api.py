@@ -65,14 +65,10 @@ def get_playlist_by_id(playlist_id, bearer_token):
     return requests.get(url, headers=headers)
 
 
-def get_list_of_current_users_playlists(token):
+def get_list_of_current_users_playlists():
     url = f"{API_URL}/me/playlists"
-    headers = {}
 
-    if token is not None:
-        headers["Authorization"] = f"Bearer {token}"
-
-    return requests.get(url, headers=headers)
+    return requests.get(url, headers=HEADERS)
 
 
 def add_items_to_playlist(playlist_id, track_uris):

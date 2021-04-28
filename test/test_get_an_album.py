@@ -1,5 +1,5 @@
-import random
 import pytest
+import random
 
 from .assertions import assert_valid_schema
 from .base import TestBase
@@ -94,6 +94,7 @@ class TestGetAnAlbum(TestBase):
         "album_id",
         [
             (1612),
+            ("randonString123"),
             (["list"]),
             ({}),
             ("\"")
