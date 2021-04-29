@@ -1,4 +1,4 @@
-import spotipy
+import requests
 
 from api.api import (
     get_album_by_id,
@@ -12,7 +12,7 @@ from api.api import (
     delete_items_from_playlist,
     get_playlist_items
 )
-from constants import USER_ID, REDIRECT_URI
+from constants import USER_ID
 
 
 class TestBase():
@@ -132,7 +132,3 @@ class TestBase():
                     playlists.append(playlist)
 
         return playlists
-    
-    def get_token(self, scope):
-        sp = spotipy.SpotifyOAuth(redirect_uri=REDIRECT_URI, scope=scope)
-        return sp.get_access_token(check_cache=False)["access_token"]

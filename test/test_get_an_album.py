@@ -1,9 +1,9 @@
 import pytest
 import random
 
-from .assertions import assert_valid_schema
+from .assertions import assert_valid_schema, assert_contains_restrictions
 from .base import TestBase
-from constants import ALBUM_ID_LIST, OAUTH_TOKEN, EXPIRED_TOKEN
+from constants import ALBUM_ID_LIST, OAUTH_TOKEN, EXPIRED_TOKEN, ALBUM_SUNRISE
 
 _ALBUM = random.choice(ALBUM_ID_LIST)
 _ERROR_INVALID_ID = "invalid id"
@@ -132,3 +132,16 @@ class TestGetAnAlbum(TestBase):
         assert (
             response["error"]["message"] == _ERROR_INVALID_MARKET
         ), f"Response message is: {response['error']['message']}, should be: '{_ERROR_INVALID_MARKET}'."
+
+    def test_TC12_album_unavailable_in_market(self):
+        response = self.get_album_by_id(
+            token=OAUTH_TOKEN,
+            album_id=ALBUM_SUNRISE["album_id"],
+            market=ALBUM_SUNRISE["not_available_market"]
+        )
+
+        assert (
+            response['id'] == ALBUM_SUNRISE['album_id']
+        ), f"Expected album_id: {ALBUM_SUNRISE['album_id']}, actual: {response['id']}"
+
+        assert_contains_restrictions(response)

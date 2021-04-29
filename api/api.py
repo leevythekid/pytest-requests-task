@@ -1,6 +1,6 @@
 import requests
 
-from constants import API_URL, USER_ID, HEADERS
+from constants import API_URL, HEADERS
 
 
 def get_album_by_id(token, album_id, market):
