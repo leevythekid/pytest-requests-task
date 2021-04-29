@@ -31,7 +31,9 @@ class TestAuthorization(TestBase):
             playlist_id=create_playlist.json()["id"],
             bearer_token=bearer_token
         )
-
+        if bearer_token == None:
+            print(bearer_token)
+            print(response.json())
         assert (
             response.status_code == expected_status_code
         ), f"Status code is expected to be: {expected_status_code}."
