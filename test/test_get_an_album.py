@@ -1,7 +1,7 @@
 import pytest
 import random
 
-from .assertions import assert_valid_schema, assert_contains_restrictions
+from .assertions import assert_valid_schema, assert_album_contains_restrictions
 from .base import TestBase
 from constants import ALBUM_ID_LIST, OAUTH_TOKEN, EXPIRED_TOKEN, ALBUM_SUNRISE
 
@@ -55,7 +55,8 @@ class TestGetAnAlbum(TestBase):
             (None, None, None, 401, _ERROR_NO_TOKEN)
         ]
     )
-    def test_missing_parameters(self, token, album_id, market, status_code, error_message):
+    def test_missing_parameters(self, token, album_id,
+                                market, status_code, error_message):
         response = self.get_album_by_id(
             status_code=status_code,
             token=token,
@@ -116,7 +117,9 @@ class TestGetAnAlbum(TestBase):
     @pytest.mark.parametrize(
         "market",
         [
-            ("iddqd")
+            ("Q"),
+            ("QQ"),
+            ("QQQ")
         ]
     )
     def test_TC11_invalid_market(self, market):
@@ -133,7 +136,7 @@ class TestGetAnAlbum(TestBase):
             response["error"]["message"] == _ERROR_INVALID_MARKET
         ), f"Response message is: {response['error']['message']}, should be: '{_ERROR_INVALID_MARKET}'."
 
-    def test_TC12_album_unavailable_in_market(self):
+    def test_TC12_get_album_unavailable_in_market(self):
         response = self.get_album_by_id(
             token=OAUTH_TOKEN,
             album_id=ALBUM_SUNRISE["album_id"],
@@ -144,4 +147,4 @@ class TestGetAnAlbum(TestBase):
             response['id'] == ALBUM_SUNRISE['album_id']
         ), f"Expected album_id: {ALBUM_SUNRISE['album_id']}, actual: {response['id']}"
 
-        assert_contains_restrictions(response)
+        assert_album_contains_restrictions(response)

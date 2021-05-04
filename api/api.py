@@ -16,17 +16,14 @@ def get_album_by_id(token, album_id, market):
     return requests.get(url, params=params, headers=headers)
 
 
-def create_playlist(token, user_id, playlist_name, is_public, is_collaborative, playlist_description):
-    if user_id == None:
-        user_id = ""
-
+def create_playlist(token, user_id, playlist_name, is_public,
+                    is_collaborative, playlist_description):
     url = f"{API_URL}/users/{user_id}/playlists"
     headers = {}
     payload = {}
 
     if token is not None:
         headers["Authorization"] = f"Bearer {token}"
-
     if playlist_name is not None:
         payload["name"] = playlist_name
     if is_public is not None:
@@ -39,17 +36,29 @@ def create_playlist(token, user_id, playlist_name, is_public, is_collaborative, 
     return requests.post(url, headers=headers, json=payload)
 
 
-"""
-def get_album_by_id(album_id):
+def get_list_of_current_users_playlists():
+    url = f"{API_URL}/me/playlists"
+
+    return requests.get(url, headers=HEADERS)
+
+
+def unfollow_a_playlist(playlist_id):
+    url = f"{API_URL}/playlists/{playlist_id}/followers"
+
+    return requests.delete(url, headers=HEADERS)
+
+
+######################################################
+# Functions below not used on the refactored version #
+######################################################
+def get_album_by_id_old(album_id):
     url = f"{API_URL}/albums/{album_id}"
 
     return requests.get(url, headers=HEADERS)
-"""
 
 
 def get_playlist_items(playlist_id):
     url = f"{API_URL}/playlists/{playlist_id}/tracks"
-    # ?market=HU&fields=items(track(uri))
     query = {"market": "HU", "fields": "items(track(uri))"}
 
     return requests.get(url, params=query, headers=HEADERS)
@@ -63,12 +72,6 @@ def get_playlist_by_id(playlist_id, bearer_token):
         headers["Authorization"] = f"Bearer {bearer_token}"
 
     return requests.get(url, headers=headers)
-
-
-def get_list_of_current_users_playlists():
-    url = f"{API_URL}/me/playlists"
-
-    return requests.get(url, headers=HEADERS)
 
 
 def add_items_to_playlist(playlist_id, track_uris):
@@ -91,12 +94,6 @@ def update_playlist_details(playlist_id, new_playlist_name, new_playlist_desc, i
         payload["public"] = is_new_playlist_public
 
     return requests.put(url, headers=HEADERS, json=payload)
-
-
-def unfollow_a_playlist(playlist_id):
-    url = f"{API_URL}/playlists/{playlist_id}/followers"
-
-    return requests.delete(url, headers=HEADERS)
 
 
 def delete_items_from_playlist(playlist_id, tracks):

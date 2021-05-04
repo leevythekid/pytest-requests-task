@@ -16,7 +16,11 @@ from constants import USER_ID
 
 
 class TestBase():
-    def get_album_by_id(self, status_code=200, token=None, album_id=None, market=None):
+    def get_album_by_id(self, status_code=200,
+                        token=None, album_id=None, market=None):
+        if album_id is None:
+            album_id = ""
+
         response = get_album_by_id(
             token=token,
             album_id=album_id,
@@ -30,7 +34,13 @@ class TestBase():
 
         return response.json()
 
-    def post_create_playlist(self, status_code=201, token=None, user_id=None, playlist_name=None, is_public=None, is_collaborative=None, playlist_description=None):
+    def post_create_playlist(self, status_code=201,
+                             token=None, user_id=None,
+                             playlist_name=None, is_public=None,
+                             is_collaborative=None, playlist_description=None):
+        if user_id is None:
+            user_id = ""
+
         response = create_playlist(
             token=token,
             user_id=user_id,
@@ -57,6 +67,17 @@ class TestBase():
 
         return response.json()
 
+    def get_owned_playlists_of_current_user(self):
+        response = self.get_list_of_current_users_playlists()
+        playlists = []
+
+        if len(response["items"]) > 0:
+            for playlist in response["items"]:
+                if playlist["owner"]["id"] == USER_ID:
+                    playlists.append(playlist)
+
+        return playlists
+
     def unfollow_a_playlist(self, status_code=200, playlist_id=None):
         response = unfollow_a_playlist(
             playlist_id=playlist_id
@@ -69,12 +90,14 @@ class TestBase():
 
         return response
 
-    """
-    def get_album_by_id(self, album_id=None):
+    ######################################################
+    # Functions below not used on the refactored version #
+    ######################################################
+
+    def get_album_by_id_old(self, album_id=None):
         response = get_album_by_id(album_id)
 
         return response
-    """
 
     def get_playlist_items(self, playlist_id):
         response = get_playlist_items(
@@ -99,7 +122,10 @@ class TestBase():
 
         return response
 
-    def put_update_playlist_details(self, playlist_id=None, new_playlist_name=None, new_playlist_desc=None, is_new_playlist_public=None):
+    def put_update_playlist_details(self, playlist_id=None,
+                                    new_playlist_name=None,
+                                    new_playlist_desc=None,
+                                    is_new_playlist_public=None):
         response = update_playlist_details(
             playlist_id=playlist_id,
             new_playlist_name=new_playlist_name,
@@ -121,14 +147,3 @@ class TestBase():
         response = get_current_user_profile()
 
         return response
-
-    def get_owned_playlists_of_current_user(self):
-        response = self.get_list_of_current_users_playlists()
-        playlists = []
-
-        if len(response["items"]) > 0:
-            for playlist in response["items"]:
-                if playlist["owner"]["id"] == USER_ID:
-                    playlists.append(playlist)
-
-        return playlists

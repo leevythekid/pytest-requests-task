@@ -10,6 +10,15 @@ def assert_valid_schema(data, schema_file):
 
     return validate(data, schema)
 
+# Checks if the given album object contains 'restrictions' property with value {"reason": "market"}
+def assert_album_contains_restrictions(response_album):
+    for track in response_album["tracks"]["items"]:
+        assert (
+            "restrictions" in track
+        ), f"Track with id: {track['id']} and name: {track['name']} does not contains the 'restrictions' property."
+        assert (
+            ("reason", "market") in track["restrictions"].items()
+        ), f"Track's {track['id']} 'restriction' property contains: {track['restrictions']} insted of: {{\"reason\": \"market\"}} "
 
 # Fails if the playlist contains any of the given tracks
 def assert_playlist_contains_tracks(playlist_id, tracks):
@@ -42,12 +51,3 @@ def assert_compare_playlists(owned_playlist, created_playlist, ignored_keys):
         owned_playlist == created_playlist
     ), f"The given playlists are different. playlist1: {owned_playlist}\nplaylist2:{created_playlist}"
 
-# Checks if the given album object contains 'restrictions' property with value {"reason": "market"}
-def assert_contains_restrictions(response_album):
-    for track in response_album["tracks"]["items"]:
-        assert (
-            "restrictions" in track
-        ), f"Track with id: {track['id']} and name: {track['name']} does not contains the 'restrictions' property."
-        assert (
-            track["restrictions"] == {"reason": "market"}
-        ), f"Track's 'restriction' property contains: {track['restrictions']} insted of: {{\"reason\": \"market\"}} "

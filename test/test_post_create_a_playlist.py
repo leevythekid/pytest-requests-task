@@ -32,15 +32,14 @@ class TestCreatePlaylist(TestBase):
 
     @pytest.fixture()
     def remove_owned_playlists(self):
-        print("****SETUP****")
         yield 0
-        print("****TEARDOWN****")
         owned_playlists = self.get_owned_playlists_of_current_user()
         for playlist in owned_playlists:
             self.unfollow_a_playlist(playlist_id=playlist["id"])
 
     @pytest.mark.parametrize(
-        "token, user_id, playlist_name, is_public, is_collaborative, playlist_description, status_code, error_message",
+        "token, user_id, playlist_name, is_public, is_collaborative, \
+        playlist_description, status_code, error_message",
         [
             (OAUTH_TOKEN, None, "playlist_1", None,
              None, "desc", 404, _ERROR_INVALID_USERNAME),
@@ -52,7 +51,11 @@ class TestCreatePlaylist(TestBase):
              "invalid": "name"}, None, True, None, 404, _ERROR_INVALID_USERNAME)
         ]
     )
-    def test_invalid_user_id(self, remove_owned_playlists, token, user_id, playlist_name, is_public, is_collaborative, playlist_description, status_code, error_message):
+    def test_invalid_user_id(self, remove_owned_playlists,
+                             token, user_id, playlist_name,
+                             is_public, is_collaborative,
+                             playlist_description,
+                             status_code, error_message):
         response = self.post_create_playlist(
             status_code=status_code,
             token=token,
@@ -63,7 +66,7 @@ class TestCreatePlaylist(TestBase):
             playlist_description=playlist_description,
         )
 
-        assert_valid_schema(response, 'error_object_schema.yml')
+        assert_valid_schema(response, "error_object_schema.yml")
 
         assert (
             response["error"]["message"] == error_message
@@ -72,7 +75,8 @@ class TestCreatePlaylist(TestBase):
         assert_current_user_owns_playlist(0)
 
     @pytest.mark.parametrize(
-        "token, user_id, playlist_name, is_public, is_collaborative, playlist_description, status_code, error_message",
+        "token, user_id, playlist_name, is_public, is_collaborative, \
+        playlist_description, status_code, error_message",
         [
             (OAUTH_TOKEN, USER_ID, None, _INVALID_VISIBILITY,
              None, _INVALID_DESCRIPTION, 400, _ERROR_PARSING),
@@ -96,7 +100,11 @@ class TestCreatePlaylist(TestBase):
              _VALID_COLLABORATIVE, None, 401, _ERROR_NO_TOKEN)
         ]
     )
-    def test_invalid_properties(self, remove_owned_playlists, token, user_id, playlist_name, is_public, is_collaborative, playlist_description, status_code, error_message):
+    def test_invalid_properties(self, remove_owned_playlists,
+                                token, user_id, playlist_name,
+                                is_public, is_collaborative,
+                                playlist_description,
+                                status_code, error_message):
         response = self.post_create_playlist(
             status_code=status_code,
             token=token,
@@ -107,7 +115,7 @@ class TestCreatePlaylist(TestBase):
             playlist_description=playlist_description,
         )
 
-        assert_valid_schema(response, 'error_object_schema.yml')
+        assert_valid_schema(response, "error_object_schema.yml")
 
         assert (
             response["error"]["message"] == error_message
@@ -122,7 +130,7 @@ class TestCreatePlaylist(TestBase):
             playlist_name="name"
         )
 
-        assert_valid_schema(response, 'playlist_object_schema.yml')
+        assert_valid_schema(response, "playlist_object_schema.yml")
 
         assert (
             response["name"] == "name"
@@ -154,7 +162,11 @@ class TestCreatePlaylist(TestBase):
             (False, False)
         ]
     )
-    def test_TC16_create_playlist_with_all_fields(self, remove_owned_playlists, is_public, is_collaborative):
+    def test_TC16_create_playlist_with_all_fields(
+            self, remove_owned_playlists,
+            is_public, is_collaborative
+    ):
+
         response = self.post_create_playlist(
             token=OAUTH_TOKEN,
             user_id=USER_ID,
@@ -164,7 +176,7 @@ class TestCreatePlaylist(TestBase):
             playlist_description=None
         )
 
-        assert_valid_schema(response, 'playlist_object_schema.yml')
+        assert_valid_schema(response, "playlist_object_schema.yml")
 
         assert (
             response["name"] == "name"
@@ -182,9 +194,10 @@ class TestCreatePlaylist(TestBase):
         assert_current_user_owns_playlist(1)
 
         owned_playlist = self.get_owned_playlists_of_current_user()[0]
-
+        
         assert_compare_playlists(
-            owned_playlist, response, ["description", "followers", "snapshot_id", "tracks"]
+            owned_playlist, response,
+            ["description", "followers", "snapshot_id", "tracks"]
         )
 
     @pytest.mark.parametrize(
@@ -194,7 +207,8 @@ class TestCreatePlaylist(TestBase):
             (None, True)
         ]
     )
-    def test_create_playlist_colliding_properties(self, remove_owned_playlists, is_public, is_collaborative):
+    def test_create_playlist_colliding_properties(self, remove_owned_playlists,
+                                                  is_public, is_collaborative):
         response = self.post_create_playlist(
             status_code=400,
             token=OAUTH_TOKEN,
@@ -205,7 +219,7 @@ class TestCreatePlaylist(TestBase):
             playlist_description=None
         )
 
-        assert_valid_schema(response, 'error_object_schema.yml')
+        assert_valid_schema(response, "error_object_schema.yml")
 
         assert (
             response["error"]["message"] == _ERROR_COLLABORATIVE
