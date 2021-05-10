@@ -6,6 +6,7 @@ from .base import TestBase
 from constants import ALBUM_ID_LIST, OAUTH_TOKEN, EXPIRED_TOKEN, ALBUM_SUNRISE
 
 _ALBUM = random.choice(ALBUM_ID_LIST)
+_ERROR_NON_EXISTING_ID = "non existing id"
 _ERROR_INVALID_ID = "invalid id"
 _ERROR_NO_TOKEN = "No token provided"
 _ERROR_BEARER = "Only valid bearer authentication supported"
@@ -94,14 +95,16 @@ class TestGetAnAlbum(TestBase):
     @pytest.mark.parametrize(
         "album_id",
         [
+            ("16tDx6tKDmxMfNQyhfsaI"),
+            ("16tDx6tKDmxMfNQyhfsaIgg"),
             (1612),
-            ("randonString123"),
+            (False),
             (["list"]),
-            ({}),
-            ("\"")
+            ({"id": "123"}),
+            ({"id", "name"}),
         ]
     )
-    def test_TC10_invalid_album_id(self, album_id):
+    def test_TC10_invalid_album_id_format(self, album_id):
         response = self.get_album_by_id(
             status_code=400,
             token=OAUTH_TOKEN,
@@ -115,6 +118,28 @@ class TestGetAnAlbum(TestBase):
         ), f"Response message is: {response['error']['message']}, should be: '{_ERROR_INVALID_ID}'."
 
     @pytest.mark.parametrize(
+        "album_id",
+        [
+            (_ALBUM["album_id"].lower()),
+            (_ALBUM["album_id"].upper()),
+            ("s6pishnukchmnfot1v2jp2")
+        ]
+    )
+    def test_TC11_invalid_album_id_content(self, album_id):
+        response = self.get_album_by_id(
+            status_code=404,
+            token=OAUTH_TOKEN,
+            album_id=album_id
+        )
+
+        assert_valid_schema(response, 'error_object_schema.yml')
+
+        assert (
+            response["error"]["message"] == _ERROR_NON_EXISTING_ID
+        ), f"Response message is: {response['error']['message']}, should be: '{_ERROR_NON_EXISTING_ID}'."
+
+
+    @pytest.mark.parametrize(
         "market",
         [
             ("Q"),
@@ -122,7 +147,7 @@ class TestGetAnAlbum(TestBase):
             ("QQQ")
         ]
     )
-    def test_TC11_invalid_market(self, market):
+    def test_TC12_invalid_market(self, market):
         response = self.get_album_by_id(
             status_code=400,
             token=OAUTH_TOKEN,
@@ -136,7 +161,7 @@ class TestGetAnAlbum(TestBase):
             response["error"]["message"] == _ERROR_INVALID_MARKET
         ), f"Response message is: {response['error']['message']}, should be: '{_ERROR_INVALID_MARKET}'."
 
-    def test_TC12_get_album_unavailable_in_market(self):
+    def test_TC13_get_album_unavailable_in_market(self):
         response = self.get_album_by_id(
             token=OAUTH_TOKEN,
             album_id=ALBUM_SUNRISE["album_id"],

@@ -3,15 +3,15 @@ import yaml
 from .base import TestBase
 from jsonschema import validate
 
-# Schema validation - Checks whether the given data matches the schema
 def assert_valid_schema(data, schema_file):
+    # Schema validation - Checks whether the given data matches the schema
     with open(f"test/support/schemas/{schema_file}") as schema_file:
         schema = yaml.safe_load(schema_file.read())
 
     return validate(data, schema)
 
-# Checks if the given album object contains 'restrictions' property with value {"reason": "market"}
 def assert_album_contains_restrictions(response_album):
+    # Checks if the given album object contains 'restrictions' property with value {"reason": "market"}
     for track in response_album["tracks"]["items"]:
         assert (
             "restrictions" in track
@@ -20,8 +20,8 @@ def assert_album_contains_restrictions(response_album):
             ("reason", "market") in track["restrictions"].items()
         ), f"Track's {track['id']} 'restriction' property contains: {track['restrictions']} insted of: {{\"reason\": \"market\"}} "
 
-# Fails if the playlist contains any of the given tracks
 def assert_playlist_contains_tracks(playlist_id, tracks):
+    # Fails if the playlist contains any of the given tracks
     response = get_playlist_items(playlist_id)
     uris = []
 
@@ -33,14 +33,15 @@ def assert_playlist_contains_tracks(playlist_id, tracks):
             track["uri"] not in uris
         ), f"Track with URI: {track['uri']} found in the playlist after deletion!"
 
-# Checks if the current user owns exactly {number_of_playlists} playlist(s)
 def assert_current_user_owns_playlist(number_of_playlists):
+    # Checks if the current user owns exactly {number_of_playlists} playlist(s)
     assert (
         len(TestBase().get_owned_playlists_of_current_user()) == number_of_playlists
     ), f"Current playler owns {len(testbase.get_owned_playlists_of_current_user())} playlist(s), insted of: {number_of_playlists}."
 
-# Compare two playlists ignoring the given properties
+
 def assert_compare_playlists(owned_playlist, created_playlist, ignored_keys):
+    # Compare two playlists ignoring the given properties
     for key in ignored_keys:
         if key in owned_playlist.keys():
             owned_playlist.pop(key)
